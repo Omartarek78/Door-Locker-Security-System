@@ -5,8 +5,9 @@
  *      Author: Omar Tarek
  */
 #include "timer1.h"
-#include<avr/io.h> // To access the registers of the timer
-volatile void(*callback_ptr)(void) = NULL;
+#include<avr/io.h>// To access the registers of the timer
+#include<avr/interrupt.h>
+void(*callback_ptr)(void) = NULL;
 /*WGM11:10 in TTCR1A will always be 0 0 as the driver is implemented for overflow and CTC modes only
 WGM13:12 IN TCCR1B will be 0 0 in case of OVF and 0 1 in case of CTC
 in compare mode TOP is OCR1A
@@ -16,6 +17,8 @@ OCR1A Will write in it the value we want to compare to
 in TIMSK we will enable CTC interrupt in case of CTC OCIE1A
 TOIE1 in case of OVF
 */
+
+//
 ISR(TIMER1_OVF_vect){
 	if(callback_ptr != NULL){
 		callback_ptr();
@@ -23,7 +26,7 @@ ISR(TIMER1_OVF_vect){
 }
 ISR(TIMER1_COMPA_vect){
 	if(callback_ptr != NULL){
-			callback_ptr();
+		callback_ptr();
 	}
 }
 
