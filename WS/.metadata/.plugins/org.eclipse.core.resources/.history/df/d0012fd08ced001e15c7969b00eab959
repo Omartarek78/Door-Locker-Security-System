@@ -1,0 +1,15 @@
+/*
+ * buzzer.h
+ *
+ *  Created on: Mar 29, 2024
+ *      Author: omart
+ */
+
+#ifndef BUZZER_H_
+#define BUZZER_H_
+#include"std_types.h"
+#include "common_macros.h"
+#include "gpio.h"
+
+
+#endif /* BUZZER_H_ */

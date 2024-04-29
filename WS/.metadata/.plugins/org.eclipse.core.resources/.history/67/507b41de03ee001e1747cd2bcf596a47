@@ -1,0 +1,19 @@
+/*
+ * control_ecu.h
+ *
+ *  Created on: Mar 29, 2024
+ *      Author: omart
+ */
+
+#ifndef CONTROL_ECU_H_
+#define CONTROL_ECU_H_
+
+#include "twi.h"
+#include "uart.h"
+#include "external_eeprom.h"
+
+
+TWI_ConfigType config = {
+		0b00000010,four_hundred_kb
+};
+#endif /* CONTROL_ECU_H_ */

@@ -1,0 +1,11 @@
+/*
+ * buzzer.c
+ *
+ *  Created on: Mar 29, 2024
+ *      Author: Omar Tarek
+ */
+#include "buzzer.h"
+
+void Buzzer_init(void){
+	GPIO_setupPinDirection(BUZZER_PORT,BUZZER_PIN,PIN_OUTPUT);
+}

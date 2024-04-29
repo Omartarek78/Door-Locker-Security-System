@@ -1,0 +1,15 @@
+/*
+ * timer1.h
+ *
+ *  Created on: Mar 27, 2024
+ *      Author: Omar Tarek
+ */
+
+#ifndef TIMER1_H_
+#define TIMER1_H_
+typedef struct{
+
+}Timer1_ConfigType;
+void Timer1_init(const Timer1_ConfigType* config_ptr);
+
+#endif /* TIMER1_H_ */

@@ -1,0 +1,16 @@
+/*
+ * hmi_ecu.h
+ *
+ *  Created on: Mar 29, 2024
+ *      Author: omart
+ */
+
+#ifndef HMI_ECU_H_
+#define HMI_ECU_H_
+#include"lcd.h"
+#include"keypad.h"
+#include"uart.h"
+#include"timer1.h"
+
+
+#endif /* HMI_ECU_H_ */

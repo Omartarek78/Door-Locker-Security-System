@@ -1,0 +1,26 @@
+/*
+ * timer1.c
+ *
+ *  Created on: Mar 27, 2024
+ *      Author: Omar Tarek
+ */
+#include "timer1.h"
+#include<avr/io.h> // To access the registers of the timer
+
+/*WGM11:10 in TTCR1A will always be 0 0 as the driver is implemented for overflow and CTC modes only
+WGM13:12 IN TCCR1B will be 0 0 in case of OVF and 0 1 in case of CTC
+in compare mode TOP is OCR1A
+clock select in TCCR1B
+initial value is written in TCNT1 (16-BITS)
+OCR1A Will write in it the value we want to compare to
+in TIMSK we will enable CTC interrupt in case of CTC OCIE1A
+TOIE1 in case of OVF
+*/
+void Timer1_init(const Timer1_ConfigType* config_ptr){
+	TCNT1 = config_ptr->intial_value;
+	if(config_ptr->mode == normal_mode){
+
+	}else{
+		TCCR1A |= (1<<FOC1A);
+	}
+}

@@ -1,0 +1,146 @@
+/*
+ * control_ecu.c
+ *
+ *  Created on: Mar 29, 2024
+ *      Author: Omar Tarek
+ */
+#include"control_ecu.h"
+
+void main(void){
+	uint8 i,flag=1;
+	TWI_init(&config_twi);
+	Buzzer_init();
+	UART_init(&config_uart);
+	Timer1_ConfigType timer_config = {
+			0,31250,clk_256_prescaler,compare_mode
+	};
+	SREG|=(1<<7);
+	while(1){
+		if(loop==0){
+			flag=1;
+			while(UART_recieveByte()!=MC1_READY);
+			for(i=0;i<5;++i){
+				UART_sendByte(MC2_READY);
+				pass[i]= UART_recieveByte();
+			}
+
+
+			while(UART_recieveByte()!=MC1_READY);
+
+			for(i=0;i<5;++i){
+				UART_sendByte(MC2_READY);
+				pass_verf[i]= UART_recieveByte();
+			}
+
+
+			for(i=0;i<5;++i){
+				if(pass[i]!=pass_verf[i]){
+					flag=0;
+					break;
+				}
+			}
+
+
+
+			if(flag==1){
+
+				while(UART_recieveByte()!= MC1_READY);
+				UART_sendByte(SUCCESS_PASS);
+				loop=1;
+				for(i=0;i<5;++i){
+					EEPROM_writeByte(0x0311+i, pass[i]);
+				}
+			}
+			else{
+				while(UART_recieveByte()!= MC1_READY);
+				UART_sendByte(FAIL_PASS);
+			}
+
+		}
+		if(loop==1){
+			while(UART_recieveByte()!= MC1_READY);
+			UART_sendByte(MC2_READY);
+			if(UART_recieveByte()==STORING_MODE){
+				loop=0;
+			}else
+			{
+				loop=2;
+			}
+		}
+		if(loop==2){
+			flag=1;
+			while(UART_recieveByte()!=MC1_READY);
+			for(i=0;i<5;++i){
+
+				UART_sendByte(MC2_READY);
+				pass[i]= UART_recieveByte();
+			}
+			for(i=0;i<5;++i){
+				EEPROM_readByte(0x0311+i,pass_verf+i);
+			}
+			for(i=0;i<5;++i){
+				if(pass[i]!=pass_verf[i]){
+					flag = 0;
+					break;
+				}
+			}
+			if(flag==1){
+				while(UART_recieveByte() != MC1_READY);
+				UART_sendByte(MC2_READY);
+				UART_sendByte(SUCCESS_PASS);
+				loop=3;
+
+			}else{
+				while(UART_recieveByte() != MC1_READY);
+				UART_sendByte(MC2_READY);
+				UART_sendByte(FAIL_PASS);
+				if(wrong_pass++ == 2){
+					loop=5;
+				}
+
+
+			}
+
+		}if(loop==3){
+			loop=4;
+			DcMotor_init();
+			DcMotor_Rotate(clockwise,255);
+			Timer1_setCallBack(handle_timer_correct);
+			Timer1_init(&timer_config);
+		}if(loop==4){
+		}
+		if(loop==5){
+			Buzzer_on();
+			loop=4;
+			Timer1_setCallBack(handle_timer_wrong);
+			Timer1_init(&timer_config);
+		}
+	}
+
+}
+void handle_timer_correct(void){
+	ticks++;
+	if(ticks==15){
+		loop=4;
+		DcMotor_Rotate(stopped,0);
+	}if(ticks==18){
+		loop=4;
+		DcMotor_Rotate(anti_clockwise,255);
+	}if(ticks==30){
+		Timer1_deInit();
+		DcMotor_Rotate(stopped,0);
+		loop=1;
+		ticks=0;
+	}
+}
+void handle_timer_wrong(void){
+	ticks++;
+	if(ticks==60){
+		ticks=0;
+		wrong_pass=0;
+
+		Timer1_deInit();
+		Buzzer_off();
+	}
+}
+

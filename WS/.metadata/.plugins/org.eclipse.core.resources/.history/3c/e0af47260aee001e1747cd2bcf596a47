@@ -1,0 +1,20 @@
+/*
+ * hmi_ecu.h
+ *
+ *  Created on: Mar 29, 2024
+ *      Author: omart
+ */
+
+#ifndef HMI_ECU_H_
+#define HMI_ECU_H_
+#include"common_macros.h"
+#include"std_types.h"
+#include"lcd.h"
+#include"keypad.h"
+#include"uart.h"
+#include"timer1.h"
+
+uint8 pass[5];
+uint8 pass_verf[5];
+
+#endif /* HMI_ECU_H_ */

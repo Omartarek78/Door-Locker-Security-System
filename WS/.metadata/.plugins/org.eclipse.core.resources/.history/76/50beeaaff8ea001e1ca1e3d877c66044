@@ -1,0 +1,26 @@
+/*
+ * uart.h
+ *
+ *  Created on: Mar 26, 2024
+ *      Author: omart
+ */
+
+#ifndef UART_H_
+#define UART_H_
+
+#include "std_types.h"
+
+
+typedef enum{
+	five_bits,six_bits,seven_bits,eight_bits,nine_bits=7
+}UART_BitDATA;
+
+typedef struct{
+	UART_BitData bit_data;
+	UART_Parity parity;
+	UART_Stopbit stop_bit;
+	UART_BaudRate baud_rate;
+}UART_ConfigType;
+
+
+#endif /* UART_H_ */

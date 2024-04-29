@@ -1,0 +1,23 @@
+/*
+ * hmi_ecu.h
+ *
+ *  Created on: Mar 29, 2024
+ *      Author: omart
+ */
+
+#ifndef HMI_ECU_H_
+#define HMI_ECU_H_
+#include"common_macros.h"
+#include"std_types.h"
+#include"lcd.h"
+#include"keypad.h"
+#include"uart.h"
+#include"timer1.h"
+#define MC2_READY 0x10
+uint8 pass[5];
+uint8 pass_verf[5];
+UART_ConfigType config_uart = {
+		eight_bits,even,one_bit,9800
+};
+
+#endif /* HMI_ECU_H_ */
