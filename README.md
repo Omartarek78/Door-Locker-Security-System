@@ -8,7 +8,6 @@ https://github.com/Omartarek78/Door-Locker-Security-System/assets/108580462/d13e
 
 https://github.com/Omartarek78/Door-Locker-Security-System/assets/108580462/980b5291-d618-4a7b-8542-39e533589bc9
 
-# Door Locker Security System
 
 This Door Locker Security System is developed using C programming language for the ATmega32 microcontroller. It utilizes various drivers including GPIO, Keypad, LCD, Timer, UART, I2C, EEPROM, and DC-Motor to provide a comprehensive solution for securing doors with password-based access.
 
